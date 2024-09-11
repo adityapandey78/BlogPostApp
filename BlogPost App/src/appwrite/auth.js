@@ -79,13 +79,13 @@ promise.then(function (response) {
     //after account creation login 
     async login({email,password}){
         try {
-            return await this.account.createEmailPasswordSession(email,password);
+            return await this.account.createEmailPasswordSession(email,password);//doc se dekha
         } catch (error) {
             throw error;
         }
     }
 
-    //getting the statust of the currewnt user if he's logged in or not
+    //getting the statust of the current user if he's logged in or not
     async getCurrentUser(){
         try {
             return await this.account.get(); //Get the currently logged in user.
@@ -96,7 +96,8 @@ promise.then(function (response) {
         return null;
     }
     
-    //logiut session
+    //logout session
+    //https://appwrite.io/docs/references/cloud/server-nodejs/account#deleteSessions
     async logout(){
         try {
             await this.account.deleteSessions()

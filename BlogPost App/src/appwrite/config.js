@@ -5,7 +5,7 @@ import {Client,ID,Databases,Storage,Query, Flag} from "appwrite";
 export class Service{
     client= new Client();
     databases;
-    bucket;
+    bucket; //bucket matbl storage hi hai
 
     constructor(){
         this.client
@@ -77,7 +77,7 @@ export class Service{
             return await this.databases.getDocument(
                 conf.appwriteDatabaseID,
                 conf.appwriteColletionID,
-                slug
+                slug //slug is Dcoument ID
             )
         } catch (error) {
           console.log("Appwrite Serivce :: getPost:: error",error);
@@ -85,7 +85,8 @@ export class Service{
         }
     }
     //to get all the posts
-    async listPosts(queries=[Query.equal("status", "active")]){
+    //idhjr queries use krenge taaki jo document activehain unhee hi lu me
+    async getPosts(queries=[Query.equal("status", "active")]){
         try {
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseID,
