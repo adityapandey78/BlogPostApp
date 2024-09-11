@@ -14,6 +14,16 @@
 
 export default conf
   ```
+
+> # Steps to set-up the database
+> - Started a project and got the proj0ect Id in this way
+> - created a db(blog in this case)
+>- in blog-> created a collection and named it as `article` enabled it from settings
+>- Set the attributes of the collection and set if it is required or not i stored thes ein strong format
+>- set the indexes as well
+>- went into storage and created bucket and set its permissions from it setting like if users can create,read,update and delete  
+
+
 # Lecture 19  
 We will be Building the authentication services with appwrite
 1. Made a folder of the appwrite in the src folder 
