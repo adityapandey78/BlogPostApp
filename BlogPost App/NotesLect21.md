@@ -91,3 +91,4 @@ export default App
 
 ``` 
 6. Configure the provider in the `main.jsx` file and wrap the main with provider
+7. **Next steps:** Configure the react-router-dom, and make components
