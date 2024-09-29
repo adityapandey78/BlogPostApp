@@ -5,8 +5,8 @@ import './index.css'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Home from './pages/Home.jsx'
-import { AuthLayout, Login, Signup } from './components/index.js'
+import { AuthLayout, Login } from './components/index.js'
+
 import  EditPost from "./pages/EditPost.jsx";
 import Signup from './pages/Signup.jsx'
 import AllPosts from './pages/AllPosts.jsx'
