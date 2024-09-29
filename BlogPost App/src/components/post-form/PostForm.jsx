@@ -19,8 +19,8 @@ function PostForm() {
             status:post?.status|| "",
         },
     })
-    const navigate=useNavigate()
-    const userData=useSelector(state=> state.user.userData)
+    const navigate=useNavigate() //navigate krane ke liye
+    const userData=useSelector(state=> state.user.userData) //ye redux ke liye
 
     //now making the submit 
     const submit =async(data)=>{
@@ -33,9 +33,9 @@ function PostForm() {
             // ye delete krne ke liye appwrite ki services use kr rhe hain
 
             const dbPost= await service.updatePost(
-                post.$id,{
+                post.$id,{ //ese hi ID set ki jaati hai
                     ...data,
-                    featuredImage:file?file.$id:undefined,   
+                    featuredImage:file?file.$id:undefined,   //ye feature image ki ID ke sath set ho ri hai
                 })
             if (dbPost) {
                 navigate(`/post/${dbPost.$id}`)
@@ -47,7 +47,7 @@ function PostForm() {
                 data.featuredImage=fileId
                 const dbPost=await service.createPost({
                     ...data,
-                    userId:userData.$id, //ye humne useSelector()se uthaya
+                    userId:userData.$id, //ye humne useSelector() se uthaya
                 })
                 if(dbPost){
                     navigate(`/post/${dbPost.$id}`)
@@ -58,7 +58,7 @@ function PostForm() {
 
     const slugTransform = useCallback((value)=>{if (value && typeof value==='string') {
         return value
-        .trim()
+        .trim() //wo value pehle trim krega
         .toLowerCase()
         .replace(/^[a-z,A-Z\d\s]+/g,'-') //regex hain ye, jo bich ki spaces and all ko sahi kr de and kuchh inputkr de
         .replace(/\s/g,'-')
@@ -75,7 +75,7 @@ function PostForm() {
             subscription.unsubscirbe()
         }
         //this retrun is used for better optimised code 
-    },[watch,slugTransform,setValue])
+    },[watch,slugTransform,setValue]) //in sbko humne ek useeffect me rkha hai
   return (
     <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
             <div className="w-2/3 px-2">
@@ -83,7 +83,7 @@ function PostForm() {
                     label="Title :"
                     placeholder="Title"
                     className="mb-4"
-                    {...register("title", { required: true })}
+                    {...register("title", { required: true })} //input ese hi leete hain register ko spread krke
                 />
                 <Input
                     label="Slug :"
