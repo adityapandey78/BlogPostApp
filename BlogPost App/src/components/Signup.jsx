@@ -1,8 +1,8 @@
-import React from 'react'
+import React,{useState} from 'react'
 import authService from '../appwrite/auth'
 import {Link,useNavigate} from 'react-router-dom'
 import { login } from '../store/authSlice'
-import { Button,Input,Logo } from "./index";
+import { Button,Input,Logo } from "./index.js";
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
@@ -61,7 +61,7 @@ function Signup() {
               {...register("email", {
                   required: true,
                   validate: {
-                      matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
+                      matchPattern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
                       "Email address must be a valid address",
                   }
               })}

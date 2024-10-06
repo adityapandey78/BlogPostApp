@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 
-function PostForm() {
+function PostForm({post}) {
     //all these are from the react form hooks and its functions
     //we can handle submit, watch, setvalue,control the form and getValues
 
@@ -20,7 +20,7 @@ function PostForm() {
         },
     })
     const navigate=useNavigate() //navigate krane ke liye
-    const userData=useSelector(state=> state.user.userData) //ye redux ke liye
+    const userData=useSelector(state=> state.auth.userData) //ye redux ke liye
 
     //now making the submit 
     const submit =async(data)=>{
@@ -72,7 +72,7 @@ function PostForm() {
             }
         })
         return()=>{
-            subscription.unsubscirbe()
+            subscription.unsubscribe()
         }
         //this retrun is used for better optimised code 
     },[watch,slugTransform,setValue]) //in sbko humne ek useeffect me rkha hai

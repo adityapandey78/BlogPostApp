@@ -37,20 +37,20 @@ export class AuthService{
     *Normal Method using appwrite
     import { Client, Account, ID } from "appwrite";
 
-const client = new Client()
+    const client = new Client()
     .setEndpoint('https://cloud.appwrite.io/v1') // Your API Endpoint
     .setProject('<PROJECT_ID>');               // Your project ID
 
-const account = new Account(client);
+    const account = new Account(client);
 
-const promise = account.create('[USER_ID]', 'email@example.com', '');
-? Since account cretaion ke time sbse pehle userId dena hai
+    const promise = account.create('[USER_ID]', 'email@example.com', '');
+    ? Since account cretaion ke time sbse pehle userId dena hai
 
-promise.then(function (response) {
+    promise.then(function (response) {
     console.log(response); // Success
-}, function (error) {
+    }, function (error) {
     console.log(error); // Failure
-});
+    });
 
     */
     //ab yhn pe ek aur construcutre usekrunga jisme mai appwrite ko call karunga 
@@ -60,33 +60,47 @@ promise.then(function (response) {
     async createAccount({email, password, name}){
         //kbhi kbhi fail bhi ho skta hai isliye try and catch me bnaya hu me 
         try {
+            console.log("Creating account with email:", email);
             const userAccount=await this.account.create(ID.unique(),email,password,name) 
             //since UserID is compulsory 
 
             if(userAccount){
-                // return userAccount; //iski jegeh seedhe login kra denge
+                 //return userAccount; //iski jegeh seedhe login kra denge
 
                 //call another method
-                return this.login(email,password);
+                console.log("Account Created attempting login:");
+                
+                return this.login({email,password});
 
             }else{
+                console.log("Returing User Acoount",userAccount);
+                
                 return userAccount;
             }
         } catch (error) {
+            console.log("Not able to create account",error.message);
+            alert("Not able to create account")
             throw error;
         }
     }
     //after account creation login 
     async login({email,password}){
         try {
+            console.log('Attempting login with',email,password);
+            
             return await this.account.createEmailPasswordSession(email,password);//doc se dekha
         } catch (error) {
+            console.log("Issue with logging in",error.message)
             throw error;
         }
+        console.log(import.meta.env.VITE_APPWRITE_URL);
+         
     }
 
     //getting the statust of the current user if he's logged in or not
     async getCurrentUser(){
+        //console.log(import.meta.env.VITE_APPWRITE_URL);
+        
         try {
             return await this.account.get(); //Get the currently logged in user.
         } catch (error) {

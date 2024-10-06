@@ -16,6 +16,8 @@ function Login() {
     const login=async(data)=>{
         setError("")
         try {
+            console.log("trying logging in");
+            
             const session =await authService.login(data)
             if(session){
                 const userData=await authService.getCurrentUser()
@@ -25,6 +27,8 @@ function Login() {
             
         }catch (error){
             setError(error.message)
+            console.log("issue with login componeent");
+            
         }
         console.log("Login is rendering")
     }

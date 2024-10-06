@@ -7,7 +7,7 @@ function LogoutBtn() {
     const dispatch =useDispatch()
     const logoutHandler =()=>{
         authService.logout().then(()=>{ //appwrite se kogout kiya
-            dispatch(logout) //store ko dispatch kr diya , logout slicer udhr bhi bnaya tha na
+            dispatch(logout()) //store ko dispatch kr diya , logout slicer udhr bhi bnaya tha na
         })
     }
   return (

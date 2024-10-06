@@ -10,21 +10,21 @@ const authStatus= useSelector(state =>state.auth.status)
 
 useEffect(()=>{
   //:TODO: Make it more simple code 
-    // if(authentication && authStatus!== authentication){
-    //   navigate("/login")
-    // } else if(!authentication&&authStatus!==authentication){
-    //   navigate("/")
-    // }
-    if (authStatus === undefined) {
-      console.log("AuthStatus error");
-      
-      return
-    }
-    if (authentication && !authStatus) {
+    if(authentication && authStatus!== authentication){
       navigate("/login")
-    } else if (!authentication && authStatus) {
+    } else if(!authentication&&authStatus!==authentication){
       navigate("/")
     }
+    // if (authStatus === undefined) {
+    //   console.log("AuthStatus error");
+      
+    //   return
+    // }
+    // if (authentication && !authStatus) {
+    //   navigate("/login")
+    // } else if (!authentication && authStatus) {
+    //   navigate("/")
+    // }
     // setLoader(false)
     setLoader(false)
 },[authStatus,navigate,authentication])
