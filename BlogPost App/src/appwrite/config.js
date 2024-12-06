@@ -10,7 +10,7 @@ export class Service{
     constructor(){
         this.client
             .setEndpoint(conf.appwriteUrl)
-            .setProject(conf.setProject);
+            .setProject(conf.appwriteProjectID);
             this.databases =new Databases(this.client);
             this.bucket= new  Storage(this.client);
     }
@@ -22,7 +22,7 @@ export class Service{
             return await this.databases.createDocument(
                 conf.appwriteDatabaseID,  // DB ID
                 conf.appwriteColletionID, // Collection ID
-                slug, //document Id slug ko le rha hu chahe ho ID.unique() bhi le skte hain
+                slug || ID.unique(), //document Id slug ko le rha hu chahe ho ID.unique() bhi le skte hain
                 {
                     title,
                     content,
@@ -32,7 +32,7 @@ export class Service{
                 }
             )
         } catch (error) {
-            console.log("Appwrite service :: Create Post:: error", error);
+            console.log("Appwrite service :: Create Post:: error", error.message);
         }
     }
 
@@ -111,6 +111,7 @@ export class Service{
                 ID.unique(),
                 file
             )
+            console.log("Upload file is  trying to upload the file")
         } catch (error) {
             console.log("Appwrite Services :: uploadFile():: error", error);
             return false;
