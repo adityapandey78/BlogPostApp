@@ -9,7 +9,7 @@ function Button({
     ...props //agar need hogi and aur props use krenge to uske liye 
 }) {
   return (
-    <button className={`px-4 py-2 rounded-lg ${bgColor}${textColor} ${className}`}{...props}>{children}
+    <button className={`px-4 py-2 rounded-lg ${bgColor} ${textColor} ${className}`}{...props}>{children}
     </button>
   )
 }

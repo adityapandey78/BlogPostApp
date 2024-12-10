@@ -35,18 +35,50 @@ function PostForm({post}) {
             console.log("Uploaded the Image!");
             
             if(file){
-                service.deleteFile(post.featuredImage)
+
+            
+                try {
+                    console.log("Attempting to delete the old Image");
+                    await service.deleteFile(post.featuredImage)
+                    console.log("Old Image deleted Successfully!"); 
+                } catch (deletError) {
+                    console.log("There was error in deleting file!",deletError);
+                }
+                
             }
             // ye delete krne ke liye appwrite ki services use kr rhe hain
 
-            const dbPost= await service.updatePost(
-                post.$id,{ //ese hi ID set ki jaati hai
-                    ...data,
-                    featuredImage:file?file.$id:undefined,   //ye feature image ki ID ke sath set ho ri hai
-                });
-            if (dbPost) {
+            // const dbPost= await service.updatePost(
+            //     post.$id,{ //ese hi ID set ki jaati hai
+            //         ...data,
+            //         featuredImage:file?file.$id:undefined,   //ye feature image ki ID ke sath set ho ri hai
+            //     });
+            // if (dbPost) {
+            //     navigate(`/post/${dbPost.$id}`);
+            // }
+
+            try{
+                const updatePayload={
+                ...data,
+                slug: data.title !== post.title ? slugTransform(data.title) : post.slug, // Update slug if title changes
+                featuredImage:file?file.$id:post.featuredImage,//retaining the existing file
+                }
+                console.log("Payload for update post!",updatePayload);
+                
+                const dbPost=await service.updatePost(post.$id,updatePayload);
+                console.log("Response from updatePayload", dbPost);
+            
+            if(dbPost){
                 navigate(`/post/${dbPost.$id}`);
+                console.log("Updating the post was success!");
+                
+            } else {
+                console.error("Update operation returned null or undefined:", dbPost);
             }
+        }catch (error) {
+            console.error("Error during update process:", error);
+        }
+            
         } else{
             const file= await service.uploadFile(data.image[0]);
             if(file){
@@ -99,7 +131,7 @@ function PostForm({post}) {
         //this retrun is used for better optimised code 
     },[watch,slugTransform,setValue]) //in sbko humne ek useeffect me rkha hai
   return (
-    <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
+    <form onSubmit={handleSubmit(submit)} className="flex flex-wrap"> 
             <div className="w-2/3 px-2">
                 <Input
                     label="Title :"

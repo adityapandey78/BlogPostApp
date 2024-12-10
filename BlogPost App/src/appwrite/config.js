@@ -49,8 +49,12 @@ export class Service{
                     content,
                     featuredImage,
                     status,
+                    
                 }
+                
+                
             )
+            
         } catch (error) {
             console.log("Appwrite service :: Update Post:: error", error);
             
@@ -63,6 +67,8 @@ export class Service{
                 conf.appwriteDatabaseID,
                 conf.appwriteColletionID,
                 slug, 
+                console.log("Deleted the file")
+                
             )
             return true; //delete ho gya hai bhai
         } catch (error) {
@@ -131,11 +137,15 @@ export class Service{
         }
     }
 
-    async getFilePreview(fileId){
-        return this.bucket.getFilePreview(
-            conf.appwriteBucketID,
-            fileId
-        )//last me ye url de dega 
+    async getFilePreview(fileId) {
+        try {
+            return this.bucket.getFilePreview(conf.appwriteBucketID, 
+                fileId);
+              
+        } catch (error) {
+            console.log("Appwrite Services :: getFilePreview():: error", error);
+            return '';
+        }
     }
 }
 
