@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 
 export default function Post() {
     const[post,setPost]=useState(null);
+    const [imageSrc, setImageSrc] = useState('');
     const {slug} =useParams();
     const navigate =useNavigate();
 
@@ -17,13 +18,18 @@ export default function Post() {
     useEffect(()=>{
         if (slug) {
             service.getPost(slug).then((post)=>{
-                if(post) setPost(post);
-                else navigate('/');
+                if(post) {setPost(post);
+                fetchImagePreview(post.featuredImage);
+            }else navigate('/');
             })
         } else navigate('/');
         
     },[slug,navigate])
-
+    //ffetching the image preview
+    const fetchImagePreview = async (fileId) => {
+        const previewUrl = await service.getFilePreview(fileId);
+        setImageSrc(previewUrl);
+    };
     const deletePost=()=>{
         service.deletePost(post.$id).then((status)=>{
             if(status){
@@ -38,7 +44,7 @@ export default function Post() {
             <Container>
                 <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
                     <img
-                        src={service.getFilePreview(post.featuredImage)}
+                        src={imageSrc}
                         alt={post.title}
                         className="rounded-xl"
                     />
