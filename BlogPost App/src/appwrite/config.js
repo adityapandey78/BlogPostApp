@@ -1,11 +1,12 @@
 import conf from '../conf/conf';
-import {Client,ID,Databases,Storage,Query, Flag} from "appwrite";
+import {Client,ID,Databases,Storage,Query, Account} from "appwrite";
 // https://appwrite.io/docs/references/cloud/client-web/databases Database DOCs
 //https://appwrite.io/docs/products/storage/quick-start storage DOCs
 export class Service{
     client= new Client();
     databases;
     bucket; //bucket matbl storage hi hai
+    account; // Add account property
 
     constructor(){
         this.client
@@ -13,6 +14,7 @@ export class Service{
             .setProject(conf.appwriteProjectID);
             this.databases =new Databases(this.client);
             this.bucket= new  Storage(this.client);
+            this.account = new Account(this.client); // Initialize account service
     }
 
     //*Post Upload service
@@ -92,17 +94,19 @@ export class Service{
     }
     //to get all the posts
     //idhjr queries use krenge taaki jo document activehain unhee hi lu me
-    async getPosts(queries=[Query.equal("status", "active")]){
+    async getPosts(queries = [Query.equal("status", "active")]) {
         try {
-            return await this.databases.listDocuments(
+            console.log("Fetching posts with queries:", queries); // Debug log
+            const response = await this.databases.listDocuments(
                 conf.appwriteDatabaseID,
                 conf.appwriteColletionID,
-                queries,//queries mene upr define kr rkha hai // wese idr bhi kr skte the
-            )
+                queries
+            );
+            console.log("Posts response:", response); // Debug log
+            return response;
         } catch (error) {
-            console.log("Appwrite Services :: listPost() :: error", error );
-            return false;
-            
+            console.error("Appwrite Services :: getPosts :: error", error);
+            return { documents: [] }; // Return empty array instead of false
         }
     }
 
@@ -147,6 +151,20 @@ export class Service{
         } catch (error) {
             console.log("Appwrite Services :: getFilePreview():: error", error);
             return '';
+        }
+    }
+
+    async getUser(userId) {
+        try {
+            // Use databases to get user document instead of account
+            return await this.databases.getDocument(
+                conf.appwriteDatabaseID,
+                'users', // You need to create a users collection in your database
+                userId
+            );
+        } catch (error) {
+            console.log("Appwrite service :: getUser :: error", error);
+            return null;
         }
     }
 }
